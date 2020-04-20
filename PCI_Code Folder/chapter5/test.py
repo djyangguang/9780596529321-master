@@ -16,7 +16,9 @@ import optimization
 # print optimization.schedulecost(s)
 # optimization.printschedule(s)
 reload(optimization)
-domain = [(0,9)*(len(optimization.people)*2)]
+domain = [(0,9)]*(len(optimization.people)*2)
+print domain
 s = optimization.randomoptimize(domain,optimization.schedulecost)
 print optimization.schedulecost(s)
-####
+optimization.printschedule(s)
+#######
