@@ -22,7 +22,7 @@ def crosscount(v):
   # Convert the number list into a dictionary of person:(x,y)
   loc=dict([(people[i],(v[i*2],v[i*2+1])) for i in range(0,len(people))])
   total=0
-  
+
   # Loop through every pair of links
   for i in range(len(links)):
     for j in range(i+1,len(links)):
