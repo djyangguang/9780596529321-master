@@ -814,7 +814,7 @@ def json_posts(user, count=15):
     raw         a raw JSON object is returned, instead of an object named Delicious.posts
     """
 
-def json_tags(user, atleast, count, sort='alpha'):
+def (user, atleast, count, sort='alpha'):
     """http://del.icio.us/feeds/json/tags/mpe
     atleast=###         include only tags for which there are at least ### number of posts
     count=###           include ### tags, counting down from the top

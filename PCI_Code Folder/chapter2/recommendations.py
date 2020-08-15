@@ -1,9 +1,14 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
 # A dictionary of movie critics and their ratings of a small
 # set of movies
-critics={'Lisa Rose': {'Lady in the Water': 2.5, 'Snakes on a Plane': 3.5,
+# -*- coding: UTF-8 -*-
+
+critics={'老杨': {'Lady in the Water': 2.5, 'Snakes on a Plane': 3.5,
  'Just My Luck': 3.0, 'Superman Returns': 3.5, 'You, Me and Dupree': 2.5, 
  'The Night Listener': 3.0},
-'Gene Seymour': {'Lady in the Water': 3.0, 'Snakes on a Plane': 3.5, 
+'老杨01': {'Lady in the Water': 3.0, 'Snakes on a Plane': 3.5,
  'Just My Luck': 1.5, 'Superman Returns': 5.0, 'The Night Listener': 3.0, 
  'You, Me and Dupree': 3.5}, 
 'Michael Phillips': {'Lady in the Water': 2.5, 'Snakes on a Plane': 3.0,
@@ -16,28 +21,36 @@ critics={'Lisa Rose': {'Lady in the Water': 2.5, 'Snakes on a Plane': 3.5,
  'You, Me and Dupree': 2.0}, 
 'Jack Matthews': {'Lady in the Water': 3.0, 'Snakes on a Plane': 4.0,
  'The Night Listener': 3.0, 'Superman Returns': 5.0, 'You, Me and Dupree': 3.5},
-'Toby': {'Snakes on a Plane':4.5,'You, Me and Dupree':1.0,'Superman Returns':4.0}}
+'老杨03': {'Snakes on a Plane':4.5,'You, Me and Dupree':1.0,'Superman Returns':4.0}}
 
 
 from math import sqrt
 
 # Returns a distance-based similarity score for person1 and person2
+#返回一个有关基于距离的相似度评价。
+# 欧几里得距离 基于 人的 平价
 def sim_distance(prefs,person1,person2):
   # Get the list of shared_items
   si={}
   for item in prefs[person1]: 
-    if item in prefs[person2]: si[item]=1
+    if item  in prefs[person2]:
+      si[item]=1
 
   # if they have no ratings in common, return 0
+  # 没有相同之处 返回 0
   if len(si)==0: return 0
 
   # Add up the squares of all the differences
+  # 所有差值的平方和
   sum_of_squares=sum([pow(prefs[person1][item]-prefs[person2][item],2) 
-                      for item in prefs[person1] if item in prefs[person2]])
-
+                      for item in prefs[person1]
+                      if item in prefs[person2]]
+                     )
+# +1 避免 被0除
   return 1/(1+sum_of_squares)
 
 # Returns the Pearson correlation coefficient for p1 and p2
+# 基于物品 的 皮尔逊 距离
 def sim_pearson(prefs,p1,p2):
   # Get the list of mutually rated items
   si={}
@@ -51,17 +64,17 @@ def sim_pearson(prefs,p1,p2):
   n=len(si)
   
   # Sums of all the preferences
+  # 所有偏好和
   sum1=sum([prefs[p1][it] for it in si])
   sum2=sum([prefs[p2][it] for it in si])
-  
-  # Sums of the squares
+  # Sums of the squares 平方和  xit依次表示si中的一个元素，遍历完所有元素循环结束
   sum1Sq=sum([pow(prefs[p1][it],2) for it in si])
   sum2Sq=sum([pow(prefs[p2][it],2) for it in si])	
   
-  # Sum of the products
+  # Sum of the products 乘积之和
   pSum=sum([prefs[p1][it]*prefs[p2][it] for it in si])
   
-  # Calculate r (Pearson score)
+  # Calculate r (Pearson score) 皮尔逊 评价值
   num=pSum-(sum1*sum2/n)
   den=sqrt((sum1Sq-pow(sum1,2)/n)*(sum2Sq-pow(sum2,2)/n))
   if den==0: return 0
@@ -72,15 +85,17 @@ def sim_pearson(prefs,p1,p2):
 
 # Returns the best matches for person from the prefs dictionary. 
 # Number of results and similarity function are optional params.
-def topMatches(prefs,person,n=5,similarity=sim_pearson):
+# 从反应偏好的字典里返回最为匹配者
+# 为评论者打分
+def topMatches(prefs,person,n=5,similarity=sim_pearson):# 列表推导式
   scores=[(similarity(prefs,person,other),other) 
                   for other in prefs if other!=person]
-  scores.sort()
+  scores.sort() # 平价最高的排前
   scores.reverse()
   return scores[0:n]
 
 # Gets recommendations for a person by using a weighted average
-# of every other user's rankings
+# of every other user's rankings利用所有他人平价值的 加权平均，为某人提供建议。
 def getRecommendations(prefs,person,similarity=sim_pearson):
   totals={}
   simSums={}
@@ -89,20 +104,20 @@ def getRecommendations(prefs,person,similarity=sim_pearson):
     if other==person: continue
     sim=similarity(prefs,person,other)
 
-    # ignore scores of zero or lower
+    # ignore scores of zero or lower 去掉 平价<= 0的
     if sim<=0: continue
     for item in prefs[other]:
 	    
-      # only score movies I haven't seen yet
+      # only score movies I haven't seen yet　只对自己没看过的经行平价
       if item not in prefs[person] or prefs[person][item]==0:
-        # Similarity * Score
+        # Similarity * Score　相
         totals.setdefault(item,0)
-        totals[item]+=prefs[other][item]*sim
+        totals[item]+=prefs[other][item]*sim  #似度×评价值
         # Sum of similarities
         simSums.setdefault(item,0)
-        simSums[item]+=sim
+        simSums[item]+=sim # 相似度和
 
-  # Create the normalized list
+  # Create the normalized list 建立一个归一化的列表
   rankings=[(total/simSums[item],item) for item,total in totals.items()]
 
   # Return the sorted list
