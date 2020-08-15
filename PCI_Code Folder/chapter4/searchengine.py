@@ -69,12 +69,14 @@ class crawler:
       return v.strip()
 
   # Seperate the words by any non-whitespace character
+  #将字符串拆分成独立的单词
   def separatewords(self,text):
     splitter=re.compile('\\W*')
     return [s.lower() for s in splitter.split(text) if s!='']
 
     
   # Return true if this url is already indexed
+  #
   def isindexed(self,url):
     return False
   
