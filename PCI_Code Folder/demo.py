@@ -115,5 +115,5 @@ def getRecommendations(prefs, person, similarity=sim_pearson):
  rankings.reverse()
  return rankings
 
-######利用所有他人平价值的 加权平均，为某人提供建议
+######利用所有他人平价  值的 加权平均，为某人提供建议
 print getRecommendations(prefs,'老杨03')
