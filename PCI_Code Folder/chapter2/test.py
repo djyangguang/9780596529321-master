@@ -18,3 +18,4 @@ reload(recommendations)
 
 
 print recommendations.getRecommendations(recommendations.critics,'老杨03')
+#[(3.3477895267131013, 'The Night Listener'), (2.832549918264162, 'Lady in the Water'), (2.5309807037655645, 'Just My Luck')]
