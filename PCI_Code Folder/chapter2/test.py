@@ -9,7 +9,7 @@ import sys
 import recommendations
 
 # 原因是因为在reload某个模块的时候，需要先import来加载需要的模块，这时候再去reload就不会有问题，具体看下面代码:
-
+# sjaelland
 
 reload(recommendations)
 #print recommendations.sim_distance(recommendations.critics,'老杨','老杨01')
