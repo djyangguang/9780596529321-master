@@ -44,10 +44,11 @@ def sim_pearson(prefs, p1, p2):
  n = len(si)
 
  # Sums of all the preferences
- # 所有偏好和
- # prefs[p1][it] = 4.5
+ #  所有偏好和
+ '''prefs[p1][it] = 4.5
  # it = 'Snakes on a Plane'
  # si ={'Snakes on a Plane': 1, 'Superman Returns': 1, 'You, Me and Dupree': 1}
+ '''
  sum1 = sum([prefs[p1][it] for it in si])
  sum2 = sum([prefs[p2][it] for it in si])
  # Sums of the squares 平方和  xit依次表示si中的一个元素，遍历完所有元素循环结束
