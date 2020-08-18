@@ -16,5 +16,11 @@ reload(recommendations)
 #print recommendations.topMatches(recommendations.critics,
              #                    '老杨',n=5)
 
+#基于用户的推荐
+#print recommendations.getRecommendations(recommendations.critics,'老杨03')
+#[(3.3477895267131013, 'The Night Listener'), (2.832549918264162, 'Lady in the Water'), (2.5309807037655645, 'Just My Luck')]
 
-print recommendations.getRecommendations(recommendations.critics,'老杨03')
+#基于物品的推荐
+moivies = recommendations.transformPrefs(recommendations.critics)
+print recommendations.topMatches(moivies,'Superman Returns')
+#[(0.6579516949597695, 'You, Me and Dupree'), (0.4879500364742689, 'Lady in the Water'), (0.11180339887498941, 'Snakes on a Plane'), (-0.1798471947990544, 'The Night Listener'), (-0.42289003161103106, 'Just My Luck')]

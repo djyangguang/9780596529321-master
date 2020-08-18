@@ -118,3 +118,18 @@ def getRecommendations(prefs, person, similarity=sim_pearson):
 
 ######利用所有他人平价  值的 加权平均，为某人提供建议
 print getRecommendations(prefs,'老杨03')
+
+
+# 基于物品
+def transformPrefs(prefs):
+ result = {}
+ for person in prefs:
+  #item = 'You, Me and Dupree'
+  for item in prefs[person]:
+   #{'Lady in the Water': {'Jack Matthews': 3.0}, 'Snakes on a Plane': {'Jack Matthews': 4.0}, 'Superman Returns': {}, 'You, Me and Dupree': {'Jack Matthews': 3.5}}
+   result.setdefault(item, {})
+
+   # Flip item and person 对掉任何物品
+   #{'Lady in the Water': {'Jack Matthews': 3.0}, 'Snakes on a Plane': {'Jack Matthews': 4.0}, 'Superman Returns': {'Jack Matthews': 5.0}, 'You, Me and Dupree': {'Jack Matthews': 3.5}}
+   result[item][person] = prefs[person][item]
+ return result

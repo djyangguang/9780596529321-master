@@ -124,14 +124,14 @@ def getRecommendations(prefs,person,similarity=sim_pearson):
   rankings.sort()
   rankings.reverse()
   return rankings
-
+#基于物品
 def transformPrefs(prefs):
   result={}
   for person in prefs:
     for item in prefs[person]:
       result.setdefault(item,{})
       
-      # Flip item and person
+      # Flip item and person 对掉任何物品
       result[item][person]=prefs[person][item]
   return result
 
